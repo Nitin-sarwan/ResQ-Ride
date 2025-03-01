@@ -1,0 +1,38 @@
+{
+  "name": "ola",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0",
+    "geolib": "^3.3.4",
+    "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.11.14",
+    "luxon": "^3.5.0",
+    "mongodb": "^5.9.1",
+    "mongoose": "^8.8.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-gridfs-storage": "^5.0.2",
+    "nodemon": "^3.1.7",
+    "proxy": "^2.2.0",
+    "redis": "^4.7.0",
+    "socket.io": "^4.8.1",
+    "twilio": "^5.3.5",
+    "validate": "^5.2.0",
+    "validator": "^13.12.0"
+  }
+}
