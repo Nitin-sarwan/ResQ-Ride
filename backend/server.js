@@ -14,9 +14,10 @@ initializeSocket(server);
 app.get("/", (req, res) => {
     res.send("API Working")
 });
+const port = process.env.PORT || 4000;
 
-server.listen(process.env.PORT,'0.0.0.0',()=>{
-    console.log(`server is working on http://localhost:${process.env.PORT}`)
+server.listen(port,'0.0.0.0',()=>{
+    console.log(`server is working on http://localhost:${port}`);
 });
 
 
