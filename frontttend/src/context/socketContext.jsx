@@ -1,8 +1,9 @@
 import React ,{createContext,useEffect} from 'react';
 import {io} from 'socket.io-client';
 export const SocketContext=createContext();
-console.log(import.meta.env.VITE_BASE_URL);
-const socket=io(import.meta.env.VITE_BASE_URL);
+// console.log(import.meta.env.VITE_BASE_URL);
+// const socket=io(import.meta.env.VITE_BASE_URL);
+const socket=io("https://resq-ride-backend-c2lg.onrender.com");
 
 const SocketProvider=({children})=>{
     useEffect(()=>{
