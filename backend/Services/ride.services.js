@@ -9,42 +9,33 @@ async function getFare(pickupLocation,destination){
         throw new Error("Pickup and destination are required");
     }
     const distanceTime=await mapService.getDistanceTime(pickupLocation,destination);
-    console.log(distanceTime);
+    // console.log(distanceTime);
      const fareRates={
-        "Basic":15,
-        "Advanced":20,
-        "ICU":25,
-        "Air":30
+        "Basic":500,
+        "Advanced":2000,
+        "Mortuary":300,
+        "Air":100000
      }
      const farePerKm={
-        "Basic":10,
-        "Advanced":15,
-        "ICU":20,
-        "Air":25
-     }
-     const farePerMin={
-         "Basic": 5,
-         "Advanced": 7,
-         "ICU": 10,
-         "Air": 15
+        "Basic":20,
+        "Advanced":50,
+        "Mortuary":15,
+        "Air":1500
      }
      const fare={
-        Basic:Math.round(fareRates.Basic+((distanceTime.distance.value/1000)*farePerKm.Basic)+((distanceTime.duration.value/60)*farePerMin.Basic),2),
-         Advanced: Math.round(fareRates.Advanced + ((distanceTime.distance.value / 1000) * farePerKm.Advanced) + ((distanceTime.duration.value / 60) * farePerMin.Advanced),2),
-         ICU: Math.round(fareRates.ICU + ((distanceTime.distance.value / 1000) * farePerKm.ICU) + ((distanceTime.duration.value / 60) * farePerMin.ICU),2),
-         Air: Math.round(fareRates.Air + ((distanceTime.distance.value / 1000) * farePerKm.Air) + ((distanceTime.duration.value / 60) * farePerMin.Air),2)
+         Basic:Math.round(fareRates.Basic+((distanceTime.distance.value/1000)*farePerKm.Basic),2),
+         Advanced: Math.round(fareRates.Advanced + ((distanceTime.distance.value / 1000) * farePerKm.Advanced),2),
+         Mortuary: Math.round(fareRates.Mortuary + ((distanceTime.distance.value / 1000) * farePerKm.Mortuary) ,2),
+         Air: Math.round(fareRates.Air + ((distanceTime.distance.value / 1000) * farePerKm.Air),2)
      }
      return fare;
 }
 module.exports.getFare=getFare;
 
-
 const generateOTP = () => {
     const otp= crypto.randomInt(1000, 10000).toString();
     return otp;
 }
-
-
 module.exports.createRide=async({
     user,pickupLocation,destination,service
 })=>{
@@ -62,8 +53,7 @@ module.exports.createRide=async({
         fare:fare[service]
     })
     return ride
-}
-
+};
 module.exports.confirmRide=async({rideId,driver})=>{
     if(!rideId){
         throw new Error('ride id is required!')
@@ -113,25 +103,25 @@ module.exports.startRide=async({rideId,otp,driver})=>{
     })
     return ride
 };
-module.exports.endRide=async({rideId,driver})=>{
-    if(!rideId){
+module.exports.endRide = async ({ rideId, driver }) => {
+    if (!rideId) {
         throw new Error('Ride id is required!');
     }
-    const ride=await rideModel.findOne({
-        _id:rideId,
-        driver:driver._id
+    const ride = await rideModel.findOne({
+        _id: rideId,
+        driver: driver._id
     }).populate('user').populate('driver').select('+otp');
-    if(!ride){
+    if (!ride) {
         throw new Error('Ride not found');
     }
-    if(ride.status !== 'ongoing'){
+    if (ride.status !== 'ongoing') {
         throw new Error('Ride not ongoing');
     }
     await rideModel.findOneAndUpdate({
-        _id:rideId,
-        driver:driver._id
-    },{
-        status:'completed'
+        _id: rideId,
+        driver: driver._id
+    }, {
+        status: 'completed'
     });
     await driverModel.findOneAndUpdate({
         _id: driver._id
@@ -139,12 +129,29 @@ module.exports.endRide=async({rideId,driver})=>{
         status: 'Available'
     });
 
+    // Update ride history after completing the ride
+    await driverModel.findOneAndUpdate({
+        _id: driver._id
+    }, {
+        $push: {
+            rideHistory: {
+                rideId: ride._id,
+                pickupLocation: ride.pickupLocation,
+                destination: ride.destination,
+                fare: ride.fare,
+                userName: ride.user.name,
+                userPhoneNumber: ride.user.phoneNumber
+            }
+        }
+    });
+    // console.log("ride",ride);
+
     sendMessageToSocketId(ride.user.socketId, {
         event: 'ride-ended',
         data: ride
-    })
+    });
 
-    return ride
+    return ride;
 };
 module.exports.createEmergencyRide=async({user,pickupLocation,service})=>{
     if(!user || !pickupLocation || !service){
@@ -156,5 +163,21 @@ module.exports.createEmergencyRide=async({user,pickupLocation,service})=>{
         pickupLocation,
         otp,
     });
+    return ride;
+};
+module.exports.confirmEmergencyRide = async ({ rideId, driver }) => {
+    if (!rideId) {
+        throw new Error('Ride id is required!');
+    }
+    await rideModel.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'accepted',
+        driver: driver._id
+    });
+    const ride = await rideModel.findOne({ _id: rideId }).populate('user').populate('driver').select('+otp');
+    if (!ride) {
+        throw new Error('Ride not found');
+    }
     return ride;
 };

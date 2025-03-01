@@ -13,18 +13,18 @@ const ConfirmRidePanel = (props) => {
         <div className='w-full'>
           <div className='flex'>
            
-            <h5 className='mt-2 mr-1'><i className="text-xl ri-map-pin-user-fill"></i></h5>
+            <h5 className='mt-4 mr-1'><i className="text-xl ri-map-pin-user-fill"></i></h5>
             <div className=' items-center gap-5'>
-              <h3 className='text-lg  font-bold m-0'>562/11-A</h3>
-              <p className='text-sm text-gray-600 m-0 capitalize'>{props.pickupLocation}</p>
+              {/* <h3 className='text-lg  font-bold m-0'>562/11-A</h3> */}
+              <p className='text-medium text-gray-600 mt-4  capitalize'>{props.pickupLocation}</p>
             </div>
           
           </div>
           <div className='flex'>
             <h5 className='mt-2 mr-1'><i className="text-xl ri-map-pin-3-fill"></i> </h5>
             <div className=' items-center gap-5'>
-              <h3 className='text-lg  font-bold m-0'>562/11-A</h3>
-              <p className='text-sm text-gray-600 m-0 capitalize'>{props.destination}</p>
+              {/* <h3 className='text-lg  font-bold m-0'>562/11-A</h3> */}
+              <p className='text-medium text-gray-600 mt-3 capitalize'>{props.destination}</p>
             </div>
           </div>
           <div className='flex'>
@@ -37,7 +37,7 @@ const ConfirmRidePanel = (props) => {
         </div>
         <button onClick={()=>{
            props.setVehicleFound(true)
-          props.setConfirmRidePanel(false)
+           props.setConfirmRidePanel(false)
            props.createRide()
         }} className='flex items-center justify-center w-full rounded-lg bg-green-600 text-white font-semibold'>Confirm</button>
       </div>

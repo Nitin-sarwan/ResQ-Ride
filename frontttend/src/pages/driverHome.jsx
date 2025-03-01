@@ -8,7 +8,7 @@ import { useGSAP } from '@gsap/react'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import {SocketContext} from './../context/socketContext';
 import { driverDataContext } from '../context/driverContext'
-// import LiveTracking from '../components/LiveTracking'
+import LiveTracking from '../components/LiveTracking'
 
 
 const DriverHome = () => {
@@ -65,7 +65,21 @@ const DriverHome = () => {
   });
 
   async function confirmRide(){
-    const response=await axios.post('http://localhost:4000/api/v1/ride/confirm',{
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/ride/confirm `,{
+      rideId:ride._id,
+      driverId:driver._id,
+    },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    console.log('response of ride: ',response);
+    setRidePopUpPanel(false);
+    setConfirmRidePopUpPanel(true);
+  }
+
+  async function confirmEmergencyRide(){
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/ride/confirm-emergency-ride `,{
       rideId:ride._id,
       driverId:driver._id,
     },{
@@ -81,7 +95,7 @@ const DriverHome = () => {
   useGSAP(function () {
     if (ridePopUpPanel) {
       gsap.to(ridePopUpPanelRef.current, {
-        transform: 'translateY(0)'
+        transform: 'translateY(0%)'
       })
     } else {
       gsap.to(ridePopUpPanelRef.current, {
@@ -93,7 +107,7 @@ const DriverHome = () => {
   useGSAP(function () {
     if (confirmRidePopUpPanel) {
       gsap.to(confirmRidePopUpPanelRef.current, {
-        transform: 'translateY(0)'
+        transform: 'translateY(0%)'
       })
     } else {
       gsap.to(confirmRidePopUpPanelRef.current, {
@@ -112,7 +126,7 @@ const DriverHome = () => {
      </div>
 
       <div className='h-3/5'>
-       {/* <LiveTracking/> */}
+       <LiveTracking/>
       </div>
       <div className='h-2/5 p-6' >
        <DriverDetails/>
@@ -123,9 +137,10 @@ const DriverHome = () => {
          setRidePopUpPanel={setRidePopUpPanel} 
          setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}
          confirmRide={confirmRide}
+         confirmEmergencyRide={confirmEmergencyRide}
           />
       </div>
-      <div ref={confirmRidePopUpPanelRef} className='fixed w-full h-[90%] z-10 bottom-0 translate-y-full bg-white px-3 py-6'>
+      <div ref={confirmRidePopUpPanelRef} className='fixed  z-10 bottom-0 translate-y-full bg-white px-3 py-6'>
         <ConfirmRidePopUp 
         ride={ride}
         setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} 

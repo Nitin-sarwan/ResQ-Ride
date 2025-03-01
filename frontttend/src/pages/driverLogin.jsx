@@ -35,7 +35,7 @@ const driverLogin = () => {
         }
         //console.log(driverData);
         try{
-            const response=await axios.post("http://localhost:4000/api/v1/driver/login",driverData);
+            const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/driver/login`,driverData);
             if (response.status === 200) {
                 const data = response.data;
                 setDriver(data.driver);

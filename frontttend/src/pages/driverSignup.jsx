@@ -43,7 +43,7 @@ const driverSignup = () => {
             }
        }
         try {
-            const response = await axios.post("http://localhost:4000/api/v1/driver/signup", newDriver);
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/driver/signup`, newDriver);
             if (response.status === 200) {
                 const data = response.data;
                 setDriver(data.driver);
@@ -97,7 +97,7 @@ return (
                                     <option value="">Select Service Type</option>
                                     <option value="Basic">Basic</option>
                                     <option value="Advanced">Advanced</option>
-                                    <option value="ICU">ICU</option>
+                                    <option value="Mortuary">Mortuary</option>
                                     <option value="Air">Air</option>
                                 </select>
 

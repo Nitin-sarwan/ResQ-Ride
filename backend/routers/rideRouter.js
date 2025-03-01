@@ -10,7 +10,7 @@ router.post('/request-ride',
     authController.protect,
     body('pickupLocation').isString().isLength({min:3}).withMessage('Invalid Pickup Location'),
     body('destination').isString().isLength({min:3}).withMessage('Invaid destination location'),
-    body('service').isString().isIn(["Basic","Advanced","ICU","Air"]).withMessage("Invalid service type"),
+    body('service').isString().isIn(["Basic","Advanced","Mortuary","Air"]).withMessage("Invalid service type"),
     rideController.requestRide
 );
 router.get('/get-fare',
@@ -38,8 +38,13 @@ router.post('/end-ride',
 router.post('/request-emergency-ride',
     authController.protect,
     body('pickupLocation').isString().isLength({min:3}).withMessage('Invalid pickup location'),
-    body('service').isString().isIn(['Basic','Advanced','ICU','Air']).withMessage('Invalid service type'),
+    body('service').isString().isIn(['Basic','Advanced','Mortuary','Air']).withMessage('Invalid service type'),
     rideController.requestEmergencyRide
+);
+router.post('/confirm-emergency-ride',
+    driverAuthController.protect,
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    rideController.confirmEmergencyRide
 );
 // router.patch('/rateRide',rideController.rateRide);
 

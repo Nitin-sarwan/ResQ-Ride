@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {userDataContext} from './../context/userContext';
 
-const usersignup = () => {
+const userSignup = () => {
     const [name,setName]=useState('');
     const [phoneNumber, setPhoneNumber] = useState("");
     const [message,setMessage]=useState('');
@@ -37,7 +37,7 @@ const usersignup = () => {
         };
         //console.log(newUser);
         try{
-        const response=await axios.post("http://localhost:4000/api/v1/user/signup",newUser);
+        const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/user/signup`,newUser);
         if(response.status === 200){
             const data=response.data;
             setUser(data.user);
@@ -94,4 +94,4 @@ const usersignup = () => {
   )
 }
 
-export default usersignup
+export default userSignup

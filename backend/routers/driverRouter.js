@@ -16,7 +16,7 @@ router.post("/signup", [
     check('name').notEmpty().withMessage('Name is required'),
     body('name').isLength({min:3}).withMessage('Name should be alteast 3 characters long'),
     body('services.plateNumber').isLength({min:3}).withMessage('Plate number should be alteast 3 characters long'),
-    body('services.service').isIn(['Basic','Advanced','ICU','Air']).withMessage('Invalid service type'),
+    body('services.service').isIn(['Basic','Advanced','Mortuary','Air']).withMessage('Invalid service type'),
 ],
 driverAuthController.signup);
 router.post("/login", [

@@ -123,4 +123,4 @@ module.exports.getNearestHospital=async(ltd,lng)=>{
         console.error(error);
         throw error;
     }
-}
+};

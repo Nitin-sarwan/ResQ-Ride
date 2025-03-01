@@ -32,7 +32,7 @@ const userLogin = () => {
             phoneNumber:formattedphoneNumber
         }
         try {
-            const response = await axios.post("http://localhost:4000/api/v1/user/login", userData);
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/user/login`, userData);
             if (response.status === 200) {
                 const data = response.data;
                 setUser(data.user);

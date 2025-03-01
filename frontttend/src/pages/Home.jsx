@@ -11,19 +11,24 @@ import WaitingForDriver from '../components/WaitingForDriver';
 import { SocketContext } from '../context/socketContext';
 import { userDataContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
-// import LiveTracking from '../components/LiveTracking';
+import LiveTracking from '../components/LiveTracking';
 
 const Home = () => {
   const [pickupLocation, setPickupLocation] = useState('');
   const [pickupLocationCoordinate, setPickupLocationCoordinate] = useState('');
   const [destination, setDestination] = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
-  const vehiclePanelRef = useRef(null);
-  const confirmRidePanelRef = useRef(null);
-  const panelRef = useRef(null);
-  const panelCloseRef = useRef(null);
-  const vehicleFoundRef = useGSAP(null);
-  const waitingForDriverRef = useRef(null);
+
+
+  const vehiclePanelRef = useRef(React.createRef());
+  const confirmRidePanelRef = useRef(React.createRef());
+  const panelRef = useRef(React.createRef());
+  const panelCloseRef = useRef(React.createRef());
+  const vehicleFoundRef = useGSAP(React.createRef());
+  const waitingForDriverRef = useRef(React.createRef());
+
+
+  
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
@@ -65,7 +70,7 @@ const Home = () => {
           // console.log(preciseLatitude, preciseLongitude); 
           setPickupLocationCoordinate({preciseLatitude,preciseLongitude});
           try {
-            const response = await axios.get('http://localhost:4000/api/v1/maps/get-address', {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/maps/get-address`, {
               params: {
                 ltd: preciseLatitude,
                 lng: preciseLongitude,
@@ -96,7 +101,7 @@ const Home = () => {
   const handlePickupChange = async (e) => {
     setPickupLocation(e.target.value);
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/maps/get-suggestions", {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/maps/get-suggestions`, {
         params: { input: e.target.value },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -111,7 +116,7 @@ const Home = () => {
   const handleDestinationChange = async (e) => {
     setDestination(e.target.value);
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/maps/get-suggestions", {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/maps/get-suggestions`, {
         params: { input: e.target.value },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -205,7 +210,7 @@ const Home = () => {
   async function findAmbulance() {
     setVehiclePanelOpen(true);
     setPanelOpen(false);
-    const response = await axios.get("http://localhost:4000/api/v1/ride/get-fare", {
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/ride/get-fare`, {
       params: { pickupLocation, destination },
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -215,7 +220,7 @@ const Home = () => {
   }
 
   async function createRide() {
-    const response = await axios.post(`http://localhost:4000/api/v1/ride/request-ride`, {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/ride/request-ride`, {
       pickupLocation,
       destination,
       service
@@ -230,7 +235,7 @@ const Home = () => {
   return (
     <div className='h-screen relative overflow-hidden'>
       <div className='h-screen w-full'>
-        {/* <LiveTracking/> */}
+        <LiveTracking/>
       </div>
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full '>
         <div className='h-[30%] mt-2 bg-white relative'>
@@ -291,7 +296,7 @@ const Home = () => {
           setPanelOpen={setPanelOpen}
         />
       </div>
-      <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 '>
+      <div ref={confirmRidePanelRef} className='fixed  z-10 bottom-0 translate-y-full bg-white px-3 py-6 '>
         <ConfirmRidePanel
           createRide={createRide}
           pickupLocation={pickupLocation}
@@ -303,7 +308,7 @@ const Home = () => {
           setVehiclePanelOpen={setVehiclePanelOpen}
         />
       </div>
-      <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 '>
+      <div ref={vehicleFoundRef} className='fixed  z-10 bottom-0 translate-y-full bg-white px-3 py-6 '>
         <LookingForDriver
           createRide={createRide}
           pickupLocation={pickupLocation}
@@ -313,7 +318,7 @@ const Home = () => {
           setVehicleFound={setVehicleFound}
         />
       </div>
-      <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12'>
+      <div ref={waitingForDriverRef} className='fixed  z-10 bottom-0 bg-white px-3 py-6 pt-12'>
         <WaitingForDriver
           ride={ride}
           setVehicleFound={setVehicleFound}

@@ -15,8 +15,8 @@ const ConfirmEmergencyPanel = (props) => {
            
             <h5 className='mt-2 mr-1'><i className="text-xl ri-map-pin-user-fill"></i></h5>
             <div className=' items-center gap-5'>
-              <h3 className='text-lg  font-bold m-0'>562/11-A</h3>
-              <p className='text-sm text-gray-600 m-0 capitalize'>{props.pickupLocation}</p>
+              {/* <h3 className='text-lg  font-bold m-0'>562/11-A</h3> */}
+              <p className='text-sm text-gray-600 mt-3 font-semibold capitalize'>{props.pickupLocation}</p>
             </div>
           
           </div>
@@ -36,9 +36,9 @@ const ConfirmEmergencyPanel = (props) => {
           </div>
         </div>
         <button onClick={()=>{
-        //    props.setVehicleFound(true)
+          props.setEmergencyVehicleFound(true)
           props.setConfirmEmergencyPanel(false)
-            props.createEmergencyRide()
+          props.createEmergencyRide()
         }} className='flex items-center justify-center w-full rounded-lg bg-green-600 text-white font-semibold'>Confirm</button>
       </div>
       

@@ -4,9 +4,9 @@ const catchAsync=require("./../utils/catchAsync");
 const crypto=require("crypto");
 const jwt = require('jsonwebtoken');
 const {validationResult}= require('express-validator');
-const twilio=require('twilio');
-const dotenv=require('dotenv');
-dotenv.config({path:"backend/config/config.env"});
+// const twilio=require('twilio');
+// const dotenv=require('dotenv');
+// dotenv.config({path:"backend/config/config.env"});
 // const Blacklist=require('./../model/blacklistModel');
 
 

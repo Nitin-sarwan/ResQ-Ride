@@ -1,14 +1,3 @@
-// import React from 'react'
-
-// const services = () => {
-//   return (
-//     <div>
-//       Services
-//     </div>
-//   )
-// }
-
-// export default services
 import React from "react";
 import { useNavigate } from "react-router-dom";
 

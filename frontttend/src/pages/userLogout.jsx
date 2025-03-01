@@ -5,7 +5,7 @@ import axios from 'axios';
 const userLogout = () => {
     const token=localStorage.getItem('token');
     const navigate=useNavigate();
-    axios.get("http://localhost:4000/api/v1/user/logout",{
+    axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user/logout`,{
         header:{
             Authorization:`Bearer ${token}`
 

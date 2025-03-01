@@ -1,53 +1,3 @@
-// import React,{useContext,useEffect, useState} from 'react';
-// import { userDataContext } from '../context/userContext';
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
-
-
-
-// const UserProtectWrapper = ({children}) => {
-//   const token=localStorage.getItem('token');
-//   const {user,setUser}=useContext(userDataContext);
-//   const [isLoading,setIsLoading]=useState(true);
-
-  
-//   const navigate=useNavigate();
-//   useEffect(()=>{
-//     console.log(token);
-//     if (!token) {
-//       navigate('/login');
-//       return;
-//     }
-//   },[token]);
-//   axios.get("http://localhost:4000/api/v1/user/profile",{
-//     headers:{
-//       Authorization:`Bearer ${token}`
-//     }
-//   })
-//   .then((response)=>{
-//     if(response.status===200){
-//       setUser(response.data)
-//       setIsLoading(false)
-//     }
-//   }).catch(err=>{
-//     console.log(err);
-//     localStorage.removeItem('token');
-//     navigate('/login')
-//   })
-//   if(isLoading){
-//     return (
-//       <div>Loading...</div>
-//     )
-//   }
-//   return (
-//     <>
-//     {children}
-//     </>
-//   )
-// }
-
-// export default UserProtectWrapper
-
 import React, { useContext, useEffect, useState } from 'react';
 import { userDataContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +19,7 @@ const UserProtectWrapper = ({ children }) => {
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/user/profile", {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user/profile`, {
           headers: {
             Authorization: `Bearer ${token}`, // Fixed the header key
           },

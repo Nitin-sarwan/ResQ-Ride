@@ -3,7 +3,7 @@ import { Routes,Route} from 'react-router-dom';
 import Start from './pages/Start';
 import Home from './pages/Home';
 import UserLogin from './pages/userLogin';
-import UserSignup from './pages/usersignup';
+import UserSignup from './pages/userSignup';
 import DriverLogin from './pages/driverLogin';
 import DriverSignup from './pages/driverSignup';
 import VerifyOTP from './pages/verifyOTP';

@@ -31,7 +31,7 @@ const VerifyDriverOTP = () => {
         };
 
         try {
-            const response = await axios.post("http://localhost:4000/api/v1/driver/verify", {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/driver/verify`, {
                 otp
             }, config
             );

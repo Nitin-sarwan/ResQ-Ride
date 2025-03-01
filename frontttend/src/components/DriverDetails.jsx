@@ -8,7 +8,7 @@ const DriverDetails = () => {
 
     const toggleDriverStatus = async () => {
         try {
-            const response = await axios.put(`http://localhost:4000/api/v1/driver/status`, {
+            const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/v1/driver/status`, {
                 isAvailable: !isAvailable
             }, {
                 headers: {
@@ -31,10 +31,12 @@ const DriverDetails = () => {
                     <img className='h-10 w-10 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s" alt="" />
                     <h4 className='text-lg font-medium capitalize'>{driver.name}</h4>
                 </div>
-                <div>
+{/* 
+                Daily earnings of Driver */}
+                {/* <div>
                     <h4 className='text-xl font-semibold mb-1'>$124</h4>
                     <p className='text-sm text-gray-600 mt-1'>Earned</p>
-                </div>
+                </div> */}
             </div>
             <div className='flex p-3 mt-6 bg-gray-100 justify-center gap-5'>
                 <div className='text-center'>

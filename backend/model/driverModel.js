@@ -93,7 +93,7 @@ const driverSchema=new mongoose.Schema({
         },
         service:{  
             type:String,
-            enum:['Basic','Advanced','ICU','Air']
+            enum:['Basic','Advanced','Mortuary']
         }
     },
     isSignupComplete: {
